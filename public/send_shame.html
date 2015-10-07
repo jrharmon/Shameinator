@@ -3,32 +3,92 @@
   <head>
     <title>Send Shame</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      .container {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+      }
+      .container > .item {
+          width: 100%;
+          font-weight: bold;
+          font-size: 2em;
+          text-align: center;
+      }
+
+      body {
+        color: white;
+        font-family: Tahoma, Geneva, sans-serif;
+      }
+
+      h1 {
+        font-size: 80px;
+        margin: 20px 0;
+      }
+
+      .background {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: -100;
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/nun.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        -webkit-filter: blur(15px);
+        -moz-filter: blur(15px);
+        -o-filter: blur(15px);
+        -ms-filter: blur(15px);
+        filter: blur(15px);
+      }
+
+      .shame-button > img {
+        color: white;
+        -webkit-filter: invert(1);
+        filter: invert(1);
+      }
+
+      @-webkit-keyframes wiggle {
+      	0% {
+      		-webkit-transform:rotate(8deg);
+      	}
+      	50% {
+      		-webkit-transform:rotate(-8deg);
+      	}
+      	100% {
+      		-webkit-transform:rotate(8deg);
+      	}
+      }
+
+      .shame-button > img:hover, .shame-button > img.ringing {
+	       -webkit-animation: wiggle 0.5s infinite;
+       }
     </style>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="background"></div>
+    <center>
+    <div class="container">
+        <h1>Send Shame</h1>
+        <br>
+        <div>
+        <a id="shame-button" class="shame-button" href="#" onclick="shame();">
+          <img src="images/bell.png" width="64" height="64">
+        </a>
+        </div>
+    </div>
+    </center>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/jquery-1.11.1.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
     <script>
-      var socket = io();
-      $('form').submit(function(){
-        var message = $('#m').val();
-        $('#messages').append($('<li>').text('shame sent: ' + message));
-        socket.emit('shame', message);
-        $('#m').val('');
-        return false;
-      });
+        var socket = io();
+        $('form').submit(function(){
+          socket.emit('shame', message);
+          return false;
+        });
     </script>
   </body>
 </html>
