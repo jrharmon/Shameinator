@@ -1,0 +1,9 @@
+{
+  "name": "shameinator",
+  "version": "0.0.1",
+  "description": "easily shame your co-workers",
+  "dependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.3.6"
+  }
+}
