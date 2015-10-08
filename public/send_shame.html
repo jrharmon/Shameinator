@@ -85,10 +85,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
     <script>
         var socket = io();
-        $('form').submit(function(){
-          socket.emit('shame', message);
-          return false;
-        });
+        function shame() {
+          socket.emit('shame', '');
+        }
     </script>
   </body>
 </html>
