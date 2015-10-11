@@ -1,0 +1,10 @@
+branch-defaults:
+  master:
+    environment: Shameinator-dev
+global:
+  application_name: Shameinator
+  default_ec2_keyname: Node
+  default_platform: Node.js
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git
