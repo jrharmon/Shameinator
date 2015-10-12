@@ -128,39 +128,50 @@
     <script>
       var snd = new Audio("audio/shame.mp3");
       snd.addEventListener('ended', function() {
-        $('#shame-button > img').removeClass('ringing');
+          $('#shame-button > img').removeClass('ringing');
       });
-	  
-	  if (localStorage.lastShame) {
-		var lastShame = moment(localStorage.lastShame);
-	  } else {
-		var lastShame = moment();
-		localStorage.lastShame = lastShame.format()
-	  }
+      
+      function getParameterByName(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+              results = regex.exec(location.search);
+          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+      
+      window.channel = getParameterByName('channel');
+      console.log('channel: ' + window.channel);
+      
+      if (localStorage.lastShame) {
+          var lastShame = moment(localStorage.lastShame);
+      } else {
+          var lastShame = moment();
+          localStorage.lastShame = lastShame.format()
+      }
 	  
       function shame() {
-        snd.play();
-        $('#shame-button > img').addClass('ringing');
-        lastShame = moment();
-		localStorage.lastShame = lastShame.format()
+          snd.play();
+          $('#shame-button > img').addClass('ringing');
+          lastShame = moment();
+		      localStorage.lastShame = lastShame.format()
       }
 
       function refresh() {
-        var now = moment();
-        $('#days').text(now.diff(lastShame, 'days'));
-        $('#hours').text(now.diff(lastShame, 'hours') % 24);
-        $('#minutes').text(now.diff(lastShame, 'minutes') % 60);
-        $('#seconds').text(now.diff(lastShame, 'seconds') % 60);
-        setTimeout(refresh, 1000);
+          var now = moment();
+          $('#days').text(now.diff(lastShame, 'days'));
+          $('#hours').text(now.diff(lastShame, 'hours') % 24);
+          $('#minutes').text(now.diff(lastShame, 'minutes') % 60);
+          $('#seconds').text(now.diff(lastShame, 'seconds') % 60);
+          setTimeout(refresh, 1000);
       };
 
       $(function() {
-        refresh();
+          refresh();
       })
       
       var socket = io();
       socket.on('shame', function(msg) {
-        shame();
+          if (msg === window.channel)
+              shame();
       });
     </script>
   </body>

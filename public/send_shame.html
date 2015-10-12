@@ -74,7 +74,7 @@
         <h1>Send Shame</h1>
         <br>
         <div>
-        <a id="shame-button" class="shame-button" href="#" onclick="shame();">
+        <a id="shame-button" class="shame-button" onclick="shame();">
           <img src="images/bell.png" width="64" height="64">
         </a>
         </div>
@@ -84,9 +84,19 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
     <script>
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        window.channel = getParameterByName('channel');
+        console.log('channel: ' + window.channel);
+      
         var socket = io();
         function shame() {
-          socket.emit('shame', '');
+            socket.emit('shame', window.channel);
         }
     </script>
   </body>
