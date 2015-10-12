@@ -141,18 +141,19 @@
       window.channel = getParameterByName('channel');
       console.log('channel: ' + window.channel);
       
-      if (localStorage.lastShame) {
-          var lastShame = moment(localStorage.lastShame);
+      var shameVarName = 'lastShame' + window.channel;
+      if (localStorage[shameVarName]) {
+          var lastShame = moment(localStorage[shameVarName]);
       } else {
           var lastShame = moment();
-          localStorage.lastShame = lastShame.format()
+          localStorage[shameVarName] = lastShame.format()
       }
 	  
       function shame() {
           snd.play();
           $('#shame-button > img').addClass('ringing');
           lastShame = moment();
-		      localStorage.lastShame = lastShame.format()
+		      localStorage['lastShame' + window.channel] = lastShame.format()
       }
 
       function refresh() {
